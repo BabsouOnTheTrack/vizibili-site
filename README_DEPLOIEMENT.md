@@ -31,18 +31,9 @@ Tout hébergement statique convient. Deux familles :
 
 **Avertissement DNS (leçon gravée, SOP étape 8) : quelle que soit l'option, la bascule DNS finale devra impérativement préserver les enregistrements MX de la messagerie professionnelle.** Ne jamais faire pointer le domaine entier vers une plateforme sans reporter les MX existants.
 
-## Étape 2 — Polices locales (avant recette)
+## Étape 2 — Polices locales : RÉSOLU (22/07/2026)
 
-Le CSS attend 4 fichiers dans `/fonts/` (auto-hébergement : RGPD + performance) :
-
-| Fichier attendu | Police | Graisse |
-|---|---|---|
-| `fonts/archivo-700.woff2` | Archivo | 700 |
-| `fonts/archivo-800.woff2` | Archivo | 800 |
-| `fonts/inter-400.woff2` | Inter | 400 |
-| `fonts/inter-600.woff2` | Inter | 600 |
-
-Téléchargement : https://gwfh.mranftl.com (google-webfonts-helper) → chercher « Archivo » puis « Inter », cocher les graisses, format woff2, renommer selon le tableau. Tant que les fichiers manquent, le site s'affiche en polices système (lisible mais pas définitif) — **la recette PageSpeed ne se fait qu'avec les polices en place.**
+Les 4 fichiers woff2 (Archivo 700/800, Inter 400/600, jeu latin) sont **inclus dans `/fonts/`** — signature binaire vérifiée, ~77 Ko au total. Les deux polices critiques (archivo-800, inter-400) sont préchargées dans le `<head>` de chaque page. Rien à faire.
 
 ## Étape 3 — Compléter les mentions légales
 
