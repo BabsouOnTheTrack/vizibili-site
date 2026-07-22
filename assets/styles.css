@@ -30,6 +30,7 @@
 :root {
   --orange: #D77229;
   --orange-vif: #FF9A4D;
+  --orange-texte: #A8500F; /* déclinaison accessible de l'orange pour le petit texte (contraste ≥ 4,5:1 sur fonds clairs) */
   --encre: #141414;
   --texte: #26221E;
   --texte-2: #6B635B;
@@ -84,8 +85,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outlin
   text-decoration: none;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
-.btn-plein { background: var(--orange); color: #fff; }
-.btn-plein:hover { background: #C2651F; }
+.btn-plein { background: var(--orange); color: var(--encre); }
+.btn-plein:hover { background: var(--orange-vif); }
 .btn-ligne { border: 1.5px solid var(--trait); color: var(--encre); }
 .btn-ligne:hover { border-color: var(--encre); }
 
@@ -96,7 +97,7 @@ section { padding: 88px 6vw; }
 .repere {
   display: inline-flex; align-items: center; gap: 8px;
   font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--orange); margin-bottom: 18px;
+  color: var(--orange-texte); margin-bottom: 18px;
 }
 .repere::before {
   content: ""; width: 10px; height: 10px; border-radius: 50% 50% 50% 0;
@@ -133,10 +134,10 @@ section { padding: 88px 6vw; }
 .resultat.premier { background: #FDF3EA; }
 .resultat.premier .pin { background: var(--orange); }
 .resultat .nom { font-weight: 600; font-size: 15px; color: var(--encre); }
-.resultat.premier .nom { color: var(--orange); }
+.resultat.premier .nom { color: var(--orange-texte); }
 .resultat .nom-attenue { font-weight: 600; font-size: 15px; color: var(--texte-2); }
 .resultat .detail { font-size: 13px; color: var(--texte-2); }
-.resultat .etoiles { color: var(--orange); font-size: 12px; letter-spacing: 2px; }
+.resultat .etoiles { color: var(--orange-texte); font-size: 12px; letter-spacing: 2px; }
 .carte-recherche .legende { text-align: center; font-size: 12.5px; color: var(--texte-2); margin-top: 14px; }
 
 /* ===== SECTIONS ===== */
@@ -215,14 +216,14 @@ footer a { color: #B8B2AB; }
 
 /* ===== PREUVE ===== */
 .cas { border: 1px solid var(--trait); border-radius: 14px; padding: 44px; margin-bottom: 36px; background: var(--papier); }
-.cas .secteur { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+.cas .secteur { font-size: 13px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--orange-texte); margin-bottom: 8px; }
 .cas h2 { font-size: 1.35rem; margin-bottom: 4px; }
 .cas .lieu { color: var(--texte-2); font-size: 14px; margin-bottom: 24px; }
 .cas .chiffres { display: flex; gap: 48px; flex-wrap: wrap; padding: 22px 0; border-top: 1px solid var(--trait); border-bottom: 1px solid var(--trait); margin-bottom: 26px; }
 .cas .chiffres .c { font-family: 'Archivo', system-ui, sans-serif; font-weight: 800; font-size: 1.9rem; color: var(--encre); font-variant-numeric: tabular-nums; }
 .cas .chiffres .c small { color: var(--orange); font-size: 1.2rem; }
 .cas .chiffres .l { font-size: 13.5px; color: var(--texte-2); }
-.cas h3 { font-size: 1rem; color: var(--orange); margin: 24px 0 8px; }
+.cas h3 { font-size: 1rem; color: var(--orange-texte); margin: 24px 0 8px; }
 .cas .recit p { color: var(--texte-2); font-size: 15px; max-width: 760px; }
 .cas blockquote { margin-top: 30px; padding: 24px 28px; background: var(--papier-chaud); border-radius: var(--rayon); font-size: 15.5px; color: var(--texte); }
 .cas blockquote footer { background: none; border: none; padding: 12px 0 0; color: var(--texte-2); font-weight: 600; font-size: 14px; display: block; }
