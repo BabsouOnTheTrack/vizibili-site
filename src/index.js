@@ -4,7 +4,7 @@
  * - Sert les fichiers de public/ (binding ASSETS).
  * - POST /api/demande : contrôle, anti-robots, déduplication, e-mail de notification à DESTINATAIRE
  *   contenant une ligne prête à coller dans le registre des demandes.
- * - Anciennes adresses : 301 (REDIRECTIONS) ou 410 (GONE).
+ * - Anciennes adresses : 301 (REDIRECTIONS, BLOG_FICHE) ou 410 (GONE).
  * - Préproduction (ENVIRONNEMENT = "preproduction") : noindex partout, robots.txt bloquant,
  *   bandeau « environnement de test », demandes marquées TEST ; mot de passe sauf si PROTECTION = "aucune".
  *
@@ -17,14 +17,20 @@ const REDIRECTIONS = {
   '/contact/merci': '/premier-echange/merci/',
   // Site historique (export Search Console du 14/10/2026)
   '/pages/contact': '/premier-echange/',
-  '/products/audit-creation-optimisation-fiche-google-business-profile': '/premier-echange/',
-  '/products/optimisation-gestion-continue-fiche-google-my-business': '/offre/',
+  // Plan SEO du 16/10/2026 : les anciennes pages sur la fiche Google ont désormais un vrai équivalent
+  '/products/audit-creation-optimisation-fiche-google-business-profile': '/fiche-google-vosges/',
+  '/products/optimisation-gestion-continue-fiche-google-my-business': '/fiche-google-vosges/',
   '/pages/a-propos-agence-referencement-local-vosges': '/a-propos/',
   '/pages/pourquoi-choisir-vizibili': '/methode/',
   '/pages/pourquoi-faire-appel-a-nous': '/methode/',
   '/collections/formules': '/offre/',
-  '/collections/all': '/offre/'
+  '/collections/all': '/offre/',
+  // Ancien blog : la liste vers les ressources, un article sans équivalent direct vers l'article le plus proche
+  '/blogs/visibilite-locale': '/ressources/',
+  '/blogs/visibilite-locale/google-maps-erreur-horaires-ete': '/ressources/entreprise-absente-google-maps/'
 };
+// Ancien blog : tous les autres articles (fiche Google, avis, référencement local) → la page fiche Google, sans paramètres
+const BLOG_FICHE = /^\/blogs\/visibilite-locale\/[a-z0-9-]+$/;
 const GONE = [/^\/blogs(\/|$)/, /^\/pages\/test-google-local-services\/?$/];
 const LIMITES = { demande_id: 40, nom: 120, entreprise: 160, email: 160, telephone: 30, secteur: 80, objectif: 80, site: 300,
   recherche: 40, prov_source: 200, prov_support: 60, prov_campagne: 200, prov_terme: 200, prov_contenu: 200, prov_arrivee: 300,
@@ -65,9 +71,10 @@ export default {
         : new Response('Méthode non autorisée', { status: 405, headers: { Allow: 'POST' } });
     } else if (preprod && url.pathname === '/robots.txt') {
       reponse = new Response('User-agent: *\nDisallow: /\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
-    } else if (REDIRECTIONS[chemin]) {
-      const cible = new URL(REDIRECTIONS[chemin], url);
-      cible.search = url.search; // garde ?secteur=… et les paramètres de campagne
+    } else if (REDIRECTIONS[chemin] || BLOG_FICHE.test(chemin)) {
+      const cible = new URL(REDIRECTIONS[chemin] || '/fiche-google-vosges/', url);
+      // garde ?secteur=… et les paramètres de campagne, sauf pour l'ancien blog (?page=2 n'a plus de sens)
+      cible.search = chemin.startsWith('/blogs/') ? '' : url.search;
       reponse = new Response(null, { status: 301, headers: { Location: cible.toString() } });
     } else if (GONE.some((re) => re.test(url.pathname))) {
       const page = await env.ASSETS.fetch(new Request(new URL('/404.html', url), request));
