@@ -1,0 +1,36 @@
+// ViZiBiLi : PRODUCTION (Worker « vizibili-site », sert vizibili.fr).
+// Mise en ligne décidée par le fondateur le 16/10/2026. Même code que la préproduction validée ; seuls changent
+// le nom du Worker, l'environnement et le domaine.
+{
+  "name": "vizibili-site",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  // Pas d'adresse workers.dev en production : le site n'existe qu'à l'adresse vizibili.fr (pas de copie indexable).
+  "workers_dev": false,
+  "preview_urls": false,
+  // Domaine identique à la configuration actuelle du Worker (relevé du 16/10/2026) : vizibili.fr seul.
+  // www.vizibili.fr n'est pas rattaché au Worker ; s'il y arrive un jour, le code le redirige vers vizibili.fr.
+  "routes": [
+    { "pattern": "vizibili.fr", "custom_domain": true }
+  ],
+  // Conserve les variables et secrets saisis dans le tableau de bord (messagerie, Turnstile) à chaque déploiement.
+  "keep_vars": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "not_found_handling": "404-page"
+  },
+  // Anti-doublon : même espace que la préproduction, clés préfixées « prod: » par le code (aucun mélange).
+  "kv_namespaces": [
+    { "binding": "DEDUP", "id": "eedd0ac1f5ca42abb9d23f90ddade144" }
+  ],
+  "vars": {
+    "ENVIRONNEMENT": "production",
+    "DESTINATAIRE": "hello@vizibili.fr"
+  }
+  // À saisir dans Cloudflare › Workers › vizibili-site › Settings › Variables and Secrets, AVANT le dépôt :
+  //   SMTP_HOTE = ssl0.ovh.net (texte), SMTP_PORT = 465 (texte), SMTP_UTILISATEUR = clement@vizibili.fr (texte),
+  //   SMTP_MOT_DE_PASSE (Secret), TURNSTILE_SECRET (Secret).
+  // NE PAS activer Cloudflare Email Routing : il remplacerait les enregistrements MX et détournerait la messagerie.
+}

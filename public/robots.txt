@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /premier-echange/merci/
 
 Sitemap: https://vizibili.fr/sitemap.xml
